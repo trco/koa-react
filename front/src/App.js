@@ -1,32 +1,36 @@
 import React from 'react';
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import {Container, Row} from 'react-bootstrap';
+
+import StoriesTable from './components/StoriesTable';
+
 import './App.css';
 
-class App extends React.Component {
-
-  state = {
-    users: []
-  }
-
-  componentDidMount() {
-    fetch('/users')
-      .then(res => res.json())
-      .then(users => this.setState({ users: users }));
-  }
-
-  render () {
-    return (
-      <div className="App">
-        <header className="App-header">
+const App = () => (
+  <div className='App'>
+    <Router>
+      <Container>
+        <Row className="justify-content-center">
           <h1>Koa & React</h1>
-          <p>
-            {this.state.users.map((user) =>
-              <p>{user.id}: {user.name}</p>
-            )}
-          </p>
-        </header>
-      </div>
-    );
-  }
-}
+        </Row>
+        <Row className="justify-content-center">
+          <h4>
+            <Link to='/stories'>
+              <code>Stories</code>
+            </Link>
+          </h4>
+        </Row>
+        <Row className="justify-content-center">
+          <Route exact path ='/' render={() => (
+            <div>
+              <h3>Click one of the links above.</h3>
+            </div>
+          )}/>
+          <Route path='/stories' component={StoriesTable}/>
+        </Row>
+      </Container>
+    </Router>
+  </div>
+);
 
 export default App;
